@@ -2,6 +2,10 @@
 
 > My personal collage-centric super app.
 
+## Prereqs
+- Install Node
+- Install Firebase CLI
+
 ## Build Setup
 
 ``` bash
