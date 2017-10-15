@@ -11,6 +11,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "coffeescript": "^2.0.1",
     "nuxt": "^1.0.0-rc11",
     "vuetify": "^0.16.1"
   },

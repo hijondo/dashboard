@@ -1,9 +1,9 @@
 <template>
   <v-app>
+    <!-- Left Drawer -->
     <v-navigation-drawer
       persistent
-      :mini-variant="miniVariant"
-      :clipped="clipped"
+      :mini-variant="true"
       v-model="drawer"
       app
     >
@@ -24,17 +24,23 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app :clipped-left="clipped">
-      <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+
+    <!-- Toolbar -->
+    <v-toolbar app>
+      <v-toolbar-items>
+        <v-text-field
+          v-model="console"
+          @keyup.enter="eval"
+          name="field-command"
+          prepend-icon="code"
+          autofocus
+          clearable
+        ></v-text-field>
+      </v-toolbar-items>
       <v-spacer></v-spacer>
     </v-toolbar>
+
+    <!-- Main container -->
     <main>
       <v-content>
         <v-container>
@@ -42,24 +48,33 @@
         </v-container>
       </v-content>
     </main>
-    <v-footer :fixed="fixed" app>
+
+    <!-- Footer -->
+    <v-footer app>
       <span>&copy; 2017</span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
+  import coffee from 'coffeescript'
+
   export default {
+    methods: {
+      eval () {
+        eval(coffee.compile(this.console))
+        this.console = ''
+      }
+    },
+
     data () {
       return {
-        clipped: true,
+        console: '',
         drawer: true,
-        fixed: false,
         items: [
-          { icon: 'apps', title: 'Dashboard', to: '/' },
+          { icon: 'code', title: 'Dashboard', to: '/' },
           { icon: 'info', title: 'About', to: '/about' }
         ],
-        miniVariant: false,
         title: 'Hijondo'
       }
     }
