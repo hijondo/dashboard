@@ -31,7 +31,7 @@
 
     <!-- Main Snakcbar -->
     <v-snackbar
-      :color="color"
+      :color="snackbar.color"
       :multi-line=true
       v-model="snackbar.visible"
     >
