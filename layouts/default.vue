@@ -1,33 +1,8 @@
 <template>
   <v-app>
-    <!-- Left Drawer -->
-    <v-navigation-drawer
-      persistent
-      :mini-variant="true"
-      v-model="drawer"
-      app
-    >
-      <v-list>
-        <v-list-tile
-          router
-          :to="item.to"
-          :key="i"
-          v-for="(item, i) in items"
-          exact
-        >
-          <v-list-tile-action>
-            <v-icon v-html="item.icon"></v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-text="item.title"></v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-
     <!-- Toolbar -->
     <v-toolbar app>
-      <v-toolbar-items>
+      <v-toolbar-items xs12>
         <v-text-field
           v-model="console"
           @keyup.enter="eval"
@@ -53,6 +28,20 @@
     <v-footer app>
       <span>&copy; 2017</span>
     </v-footer>
+
+    <!-- Main Snakcbar -->
+    <v-snackbar
+      :color="color"
+      :multi-line=true
+      v-model="snackbar.visible"
+    >
+      {{ snackbar.text }}
+      <v-btn
+        flat
+        dark
+        @click.native="snackbar.visible = false"
+      >Close</v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -62,7 +51,15 @@
   export default {
     methods: {
       eval () {
-        eval(coffee.compile(this.console))
+        try {
+          eval(coffee.compile(this.console))
+        } catch (err) {
+          this.snackbar = {
+            color: 'info',
+            text: 'ERROR: ' + err.toString(),
+            visible: true
+          }
+        }
         this.console = ''
       }
     },
@@ -70,11 +67,11 @@
     data () {
       return {
         console: '',
-        drawer: true,
-        items: [
-          { icon: 'code', title: 'Dashboard', to: '/' },
-          { icon: 'info', title: 'About', to: '/about' }
-        ],
+        snackbar: {
+          color: 'info',
+          text: 'Test',
+          visible: false
+        },
         title: 'Hijondo'
       }
     }
